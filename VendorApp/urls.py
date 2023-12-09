@@ -1,10 +1,13 @@
 from django.urls import path
-from .views import VendorsList, VendorCreate, VendorDetails, VendorUpdate, VendorDelete
+from .views import  VendorCreate, VendorDetailsUpdate, PurchaseOrderCreateList, PurchaseOrderDetailsUpdate, PerformanceList
 
 urlpatterns = [
     path('vendors/', VendorCreate.as_view(), name='create-vendor'),
-    path('vendors/list/', VendorsList.as_view(), name='vendor-list'),
-    path('vendors/<int:vendor_id>/', VendorDetails.as_view(), name='vendor-details'),
-    path('vendors/update/<int:vendor_id>/', VendorUpdate.as_view(), name='vendor-update'),
-    path('vendors/delete/<int:vendor_id>/', VendorDelete.as_view(), name='vendor-dekete'),
+    path('vendors/<int:pk>/', VendorDetailsUpdate.as_view(), name='vendor-details'),
+
+    path('purchase_orders/', PurchaseOrderCreateList.as_view(), name='purchase-order'),
+    path('purchase_orders/<int:pk>/', PurchaseOrderDetailsUpdate.as_view(), name='purchase-order-details'),
+
+    path('vendors/<int:pk>/performance/', PerformanceList.as_view(), name='performance-list'),
+    
 ]

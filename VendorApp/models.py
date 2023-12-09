@@ -35,7 +35,7 @@ class PurchaseOrder(models.Model):
     acknowledgment_date = models.DateTimeField(null=True)
 
     def __str__(self):
-        return f"PO{self.po_number}: {self.vendor.name}"
+        return f"{self.po_number}: {self.vendor.name}"
 
 
 class HistoricalPerformance(models.Model):
@@ -48,3 +48,6 @@ class HistoricalPerformance(models.Model):
 
     def __str__(self):
         return f"Historical Performance for {self.vendor.name} on {self.date}"
+
+
+
