@@ -41,7 +41,7 @@ class PerformanceList(generics.ListAPIView):
             return Response({"detail": "Details not found for this vendor ID."}, status=status.HTTP_404_NOT_FOUND)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-    
+
 
 class VendorPerformance(generics.RetrieveAPIView):
     serializer_class = VendorPerformanceSerializer
@@ -53,6 +53,7 @@ class VendorPerformance(generics.RetrieveAPIView):
         vendor = self.get_object()
         serializer = self.get_serializer(vendor)
         return Response(serializer.data)
+
 
 class AcknowledgePurchaseOrder(generics.UpdateAPIView):
     serializer_class = AcknowledgePurchaseOrderSerializer
