@@ -14,9 +14,6 @@ class Vendor(models.Model):
     average_response_time = models.FloatField(default=0.0)
     fulfillment_rate = models.FloatField(default=0.0)
 
-    def __str__(self):
-        return self.name
-
     def calculate_on_time_delivery_rate(self):
         completed_orders = PurchaseOrder.objects.filter(
             vendor=self, status='completed')
@@ -39,11 +36,29 @@ class Vendor(models.Model):
                           for order in acknowledged_orders]
         return sum(response_times) / len(response_times) if response_times else 0
 
-    def calculate_fulfillment_rate(self):
-        completed_orders = PurchaseOrder.objects.filter(
-            vendor=self, status='completed')
-        fulfilled_orders = completed_orders.filter(quality_rating__isnull=True)
-        return fulfilled_orders.count() / completed_orders.count() if completed_orders.count() > 0 else 0
+    def calculate_fulfillment_rate(vendor):
+        completed_orders = vendor.purchaseorder_set.filter(status='completed')
+        successful_orders = completed_orders.exclude(status='completed', quality_rating__isnull=True)
+        total_orders = vendor.purchaseorder_set.all()
+
+        print( completed_orders.count() )
+        print( successful_orders.count() )
+        print( total_orders.count() )
+        print( successful_orders.count() / total_orders.count() )
+        return successful_orders.count() / total_orders.count() if total_orders.count() > 0 else 0
+    
+    def save(self, *args, **kwargs):
+        self.on_time_delivery_rate = self.calculate_on_time_delivery_rate()
+        print(self.calculate_on_time_delivery_rate())
+        print(self.calculate_quality_rating_average())
+        print(self.calculate_average_response_time())
+        self.quality_rating_avg = self.calculate_quality_rating_average()
+        self.average_response_time = self.calculate_average_response_time()
+        self.fulfillment_rate = self.calculate_fulfillment_rate()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 
 class PurchaseOrder(models.Model):
