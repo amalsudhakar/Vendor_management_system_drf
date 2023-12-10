@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from django.db import models
 
 # Create your models here.
@@ -15,6 +16,34 @@ class Vendor(models.Model):
 
     def __str__(self):
         return self.name
+
+    def calculate_on_time_delivery_rate(self):
+        completed_orders = PurchaseOrder.objects.filter(
+            vendor=self, status='completed')
+        on_time_orders = completed_orders.filter(
+            delivery_date__lte=models.F('delivery_date'))
+        return on_time_orders.count() / completed_orders.count() if completed_orders.count() > 0 else 0
+
+    def calculate_quality_rating_average(self):
+        completed_orders = PurchaseOrder.objects.filter(
+            vendor=self, status='completed')
+        rated_orders = completed_orders.exclude(quality_rating__isnull=True)
+        avg_rating = rated_orders.aggregate(
+            avg_rating=Avg('quality_rating'))['avg_rating']
+        return avg_rating if avg_rating is not None else 0
+
+    def calculate_average_response_time(self):
+        acknowledged_orders = PurchaseOrder.objects.filter(
+            vendor=self, acknowledgment_date__isnull=False)
+        response_times = [(order.acknowledgment_date - order.issue_date).total_seconds()
+                          for order in acknowledged_orders]
+        return sum(response_times) / len(response_times) if response_times else 0
+
+    def calculate_fulfillment_rate(self):
+        completed_orders = PurchaseOrder.objects.filter(
+            vendor=self, status='completed')
+        fulfilled_orders = completed_orders.filter(quality_rating__isnull=True)
+        return fulfilled_orders.count() / completed_orders.count() if completed_orders.count() > 0 else 0
 
 
 class PurchaseOrder(models.Model):
@@ -48,6 +77,3 @@ class HistoricalPerformance(models.Model):
 
     def __str__(self):
         return f"Historical Performance for {self.vendor.name} on {self.date}"
-
-
-

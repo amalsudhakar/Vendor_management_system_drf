@@ -1,14 +1,10 @@
-from rest_framework.views import APIView
 from rest_framework import generics
+from .models import Vendor, PurchaseOrder, HistoricalPerformance
+from .serializers import AcknowledgePurchaseOrderSerializer, VendorPerformanceSerializer, VendorSerializer, PurchaseOrderSerializer, HistoricalPerformanceSerializer
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Vendor, PurchaseOrder, HistoricalPerformance
-from .serializers import VendorSerializer, PurchaseOrderSerializer
-from drf_yasg.utils import swagger_auto_schema
-
 from django_filters import rest_framework as django_drf_filters
 import django_filters
-
 # View vendors api/vendors/.
 
 
@@ -19,26 +15,59 @@ class VendorCreate(generics.ListCreateAPIView):
 
 class VendorDetailsUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = Vendor.objects.all()
-    serializer_class =VendorSerializer
+    serializer_class = VendorSerializer
 
 
 class PurchaseOrderCreateList(generics.ListCreateAPIView):
     queryset = PurchaseOrder.objects.all()
     serializer_class = PurchaseOrderSerializer
-            
+
 
 class PurchaseOrderDetailsUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = PurchaseOrder.objects.all()
     serializer_class = PurchaseOrderSerializer
 
-class PerformanceList(generics.RetrieveAPIView):
-    queryset = HistoricalPerformance.objects.all()
-    serializer_class = HistoricalPerformance
 
+class PerformanceList(generics.ListAPIView):
+    serializer_class = HistoricalPerformanceSerializer
+
+    def get_queryset(self):
+        vendor_id = self.kwargs['pk']
+        return HistoricalPerformance.objects.filter(vendor_id=vendor_id)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if not queryset.exists():
+            return Response({"detail": "Details not found for this vendor ID."}, status=status.HTTP_404_NOT_FOUND)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+
+class VendorPerformance(generics.RetrieveAPIView):
+    serializer_class = VendorPerformanceSerializer
+
+    def get_queryset(self):
+        return Vendor.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        vendor = self.get_object()
+        serializer = self.get_serializer(vendor)
+        return Response(serializer.data)
+
+class AcknowledgePurchaseOrder(generics.UpdateAPIView):
+    serializer_class = AcknowledgePurchaseOrderSerializer
+
+    def get_queryset(self):
+        return PurchaseOrder.objects.all()
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        instance.vendor.calculate_average_response_time()
+        instance.vendor.save()
 
 # class CustomPlanTypeFilter(django_filters.CharFilter):
 #     def filter(self, queryset, value):
-        
+
 #         if value.lower() == 'none':
 #             return queryset.filter(plan_type=None)
 #         return super().filter(queryset, value)
@@ -62,7 +91,7 @@ class PerformanceList(generics.RetrieveAPIView):
 # class ContactsView(AutoPrefetchViewSetMixin, generics.ListAPIView):
 #     def get(self, request, *args, **kwargs):
 #             return super().get(request, *args, **kwargs)
-        
+
 #     queryset = Contacts.objects.all()
 #     serializer_class = ContactsSerializer
 #     filter_backends = [
