@@ -3,32 +3,44 @@ from .models import Vendor, PurchaseOrder, HistoricalPerformance
 from .serializers import AcknowledgePurchaseOrderSerializer, VendorPerformanceSerializer, VendorSerializer, PurchaseOrderSerializer, HistoricalPerformanceSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
 from django_filters import rest_framework as django_drf_filters
 import django_filters
 # View vendors api/vendors/.
 
 
 class VendorCreate(generics.ListCreateAPIView):
+    authentication_classes = [ JWTAuthentication ]
+    permission_classes = [ IsAuthenticated ]
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
 
 
 class VendorDetailsUpdate(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [ JWTAuthentication ]
+    permission_classes = [ IsAuthenticated ]
     queryset = Vendor.objects.all()
     serializer_class = VendorSerializer
 
 
 class PurchaseOrderCreateList(generics.ListCreateAPIView):
+    authentication_classes = [ JWTAuthentication ]
+    permission_classes = [ IsAuthenticated ]
     queryset = PurchaseOrder.objects.all()
     serializer_class = PurchaseOrderSerializer
 
 
 class PurchaseOrderDetailsUpdate(generics.RetrieveUpdateDestroyAPIView):
+    authentication_classes = [ JWTAuthentication ]
+    permission_classes = [ IsAuthenticated ]
     queryset = PurchaseOrder.objects.all()
     serializer_class = PurchaseOrderSerializer
 
 
 class PerformanceList(generics.ListAPIView):
+    authentication_classes = [ JWTAuthentication ]
+    permission_classes = [ IsAuthenticated ]
     serializer_class = HistoricalPerformanceSerializer
 
     def get_queryset(self):
@@ -44,6 +56,8 @@ class PerformanceList(generics.ListAPIView):
 
 
 class VendorPerformance(generics.RetrieveAPIView):
+    authentication_classes = [ JWTAuthentication ]
+    permission_classes = [ IsAuthenticated ]
     serializer_class = VendorPerformanceSerializer
 
     def get_queryset(self):
@@ -56,6 +70,8 @@ class VendorPerformance(generics.RetrieveAPIView):
 
 
 class AcknowledgePurchaseOrder(generics.UpdateAPIView):
+    authentication_classes = [ JWTAuthentication ]
+    permission_classes = [ IsAuthenticated ]
     serializer_class = AcknowledgePurchaseOrderSerializer
 
     def get_queryset(self):
