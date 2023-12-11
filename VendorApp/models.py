@@ -1,5 +1,7 @@
 from django.db.models import Avg
 from django.db import models
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 # Create your models here.
 
@@ -38,15 +40,16 @@ class Vendor(models.Model):
 
     def calculate_fulfillment_rate(vendor):
         completed_orders = vendor.purchaseorder_set.filter(status='completed')
-        successful_orders = completed_orders.exclude(status='completed', quality_rating__isnull=True)
+        successful_orders = completed_orders.exclude(
+            status='completed', quality_rating__isnull=True)
         total_orders = vendor.purchaseorder_set.all()
 
-        print( completed_orders.count() )
-        print( successful_orders.count() )
-        print( total_orders.count() )
-        print( successful_orders.count() / total_orders.count() )
+        print(completed_orders.count())
+        print(successful_orders.count())
+        print(total_orders.count())
+        print(successful_orders.count() / total_orders.count())
         return successful_orders.count() / total_orders.count() if total_orders.count() > 0 else 0
-    
+
     def save(self, *args, **kwargs):
         self.on_time_delivery_rate = self.calculate_on_time_delivery_rate()
         print(self.calculate_on_time_delivery_rate())
@@ -80,6 +83,10 @@ class PurchaseOrder(models.Model):
 
     def __str__(self):
         return f"{self.po_number}: {self.vendor.name}"
+
+    def clean(self):
+        if self.delivery_date < timezone.now():
+            raise ValidationError("Delivery date cannot be in the past.")
 
 
 class HistoricalPerformance(models.Model):

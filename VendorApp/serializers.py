@@ -23,7 +23,9 @@ class HistoricalPerformanceSerializer(serializers.ModelSerializer):
 class VendorPerformanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vendor
-        fields = ('on_time_delivery_rate', 'quality_rating_avg', 'average_response_time', 'fulfillment_rate')
+        fields = ('on_time_delivery_rate', 'quality_rating_avg',
+                  'average_response_time', 'fulfillment_rate')
+
 
 class AcknowledgePurchaseOrderSerializer(serializers.ModelSerializer):
     class Meta:
