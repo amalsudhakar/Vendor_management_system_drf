@@ -57,6 +57,7 @@ Make sure you have the following installed before running the application:
     - PUT /api/v1/purchase_orders/<order_id>/acknowledge/: Acknowledge a purchase order.
 
 7. Authentication
+
     JWT Authentication is required for most endpoints.
     Obtain a JWT token by sending a POST request to /api/token/ with valid credentials.
     Include the token in the Authorization header for authenticated endpoints (Authorization: Bearer <token>).
