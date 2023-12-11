@@ -44,20 +44,14 @@ class Vendor(models.Model):
             status='completed', quality_rating__isnull=True)
         total_orders = vendor.purchaseorder_set.all()
 
-        print(completed_orders.count())
-        print(successful_orders.count())
-        print(total_orders.count())
-        print(successful_orders.count() / total_orders.count())
-        return successful_orders.count() / total_orders.count() if total_orders.count() > 0 else 0
+        if total_orders.count() > 0:
+            fulfillment_rate = successful_orders.count() / total_orders.count()
+        else:
+            fulfillment_rate = 0.0
+
+        return fulfillment_rate
 
     def save(self, *args, **kwargs):
-        self.on_time_delivery_rate = self.calculate_on_time_delivery_rate()
-        print(self.calculate_on_time_delivery_rate())
-        print(self.calculate_quality_rating_average())
-        print(self.calculate_average_response_time())
-        self.quality_rating_avg = self.calculate_quality_rating_average()
-        self.average_response_time = self.calculate_average_response_time()
-        self.fulfillment_rate = self.calculate_fulfillment_rate()
         super().save(*args, **kwargs)
 
     def __str__(self):

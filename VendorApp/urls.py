@@ -4,7 +4,7 @@ from .views import AcknowledgePurchaseOrder, VendorCreate, VendorDetailsUpdate, 
 urlpatterns = [
     path('vendors/', VendorCreate.as_view(), name='create-vendor'),
     path('vendors/<int:pk>/', VendorDetailsUpdate.as_view(), name='vendor-details'),
-    path('vendors/<int:pk>/performance/',
+    path('vendors/<int:vendor_id>/performance/',
          PerformanceList.as_view(), name='performance-list'),
     path('vendors/<int:pk>/performance/',
          VendorPerformance.as_view(), name='vendor-performance'),

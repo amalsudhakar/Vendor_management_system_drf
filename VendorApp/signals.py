@@ -17,12 +17,12 @@ def update_performance_metrics(sender, instance, created, **kwargs):
     average_response_time = vendor.calculate_average_response_time()
     fulfillment_rate = vendor.calculate_fulfillment_rate()
 
-    historical_performance = HistoricalPerformance.objects.create(
+    details = {"date": timezone.now(),
+               "on_time_delivery_rate": on_time_delivery_rate,
+               "quality_rating_avg": quality_rating_avg,
+               "average_response_time": average_response_time,
+               "fulfillment_rate": fulfillment_rate}
+    historical_performance = HistoricalPerformance.objects.update_or_create(
         vendor=vendor,
-        date=timezone.now(),
-        on_time_delivery_rate=on_time_delivery_rate,
-        quality_rating_avg=quality_rating_avg,
-        average_response_time=average_response_time,
-        fulfillment_rate=fulfillment_rate,
+        defaults={**details}
     )
-    historical_performance.save()

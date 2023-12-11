@@ -42,18 +42,9 @@ class PurchaseOrderDetailsUpdate(generics.RetrieveUpdateDestroyAPIView):
 class PerformanceList(generics.ListAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
+    lookup_field = 'vendor_id'
+    queryset = HistoricalPerformance.objects.all()
     serializer_class = HistoricalPerformanceSerializer
-
-    def get_queryset(self):
-        vendor_id = self.kwargs['pk']
-        return HistoricalPerformance.objects.filter(vendor_id=vendor_id)
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        if not queryset.exists():
-            return Response({"detail": "Details not found for this vendor ID."}, status=status.HTTP_404_NOT_FOUND)
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
 
 
 class VendorPerformance(generics.RetrieveAPIView):
