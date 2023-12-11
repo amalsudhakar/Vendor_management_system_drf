@@ -19,42 +19,42 @@ Make sure you have the following installed before running the application:
 - Django Rest Framework
 
 
-## Setup Instructions
+## Installation
 
-### 1. Clone the Repository
-
+1. Clone the Repository
+    ```sh
     git clone https://github.com/amalsudhakar/Vendor_management_system_drf.git
     cd project_folder
-
+    ```
 2. Install Dependencies
-    
+    ```sh
     pip install -r requirements.txt
-
+    ```
 3. Database Setup
-
+    ```sh
     python manage.py makemigrations
     python manage.py migrate
-
+    ```
 4. Create Superuser (Optional)
-
+    ```sh
     python manage.py createsuperuser
-
+    ```
 5. Run the Development Server
-
+    ```sh
     python manage.py runserver
-
+    ```
 6. API Endpoints
 
-    POST /api/v1/vendors/: Create a new vendor.
-    GET /api/v1/vendors/: Retrieve all vendors.
-    GET /api/v1/vendors/<vendor_id>/: Retrieve details of a specific vendor.
-    PUT /api/v1/vendors/<vendor_id>/: Update details of a specific vendor.
-    DELETE /api/v1/vendors/<vendor_id>/: Delete a specific vendor.
-    POST /api/v1/vendors/<vendor_id>/purchase_orders/: Create a purchase order for a vendor.
-    GET /api/v1/vendors/<vendor_id>/purchase_orders/: Retrieve all purchase orders for a vendor.
-    GET /api/v1/vendors/<vendor_id>/performance/: Retrieve historical performance for a vendor.
-    GET /api/v1/vendors/<vendor_id>/vendor_performance/: Retrieve performance details for a vendor.
-    PUT /api/v1/purchase_orders/<order_id>/acknowledge/: Acknowledge a purchase order.
+    - POST /api/v1/vendors/: Create a new vendor.
+    - GET /api/v1/vendors/: Retrieve all vendors.
+    - GET /api/v1/vendors/<vendor_id>/: Retrieve details of a specific vendor.
+    - PUT /api/v1/vendors/<vendor_id>/: Update details of a specific vendor.
+    - DELETE /api/v1/vendors/<vendor_id>/: Delete a specific vendor.
+    - POST /api/v1/vendors/<vendor_id>/purchase_orders/: Create a purchase order for a vendor.
+    - GET /api/v1/vendors/<vendor_id>/purchase_orders/: Retrieve all purchase orders for a vendor.
+    - GET /api/v1/vendors/<vendor_id>/performance/: Retrieve historical performance for a vendor.
+    - GET /api/v1/vendors/<vendor_id>/vendor_performance/: Retrieve performance details for a vendor.
+    - PUT /api/v1/purchase_orders/<order_id>/acknowledge/: Acknowledge a purchase order.
 
 7. Authentication
     JWT Authentication is required for most endpoints.
