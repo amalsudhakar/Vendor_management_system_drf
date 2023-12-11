@@ -24,7 +24,7 @@ Make sure you have the following installed before running the application:
 1. Clone the Repository
     ```sh
     git clone https://github.com/amalsudhakar/Vendor_management_system_drf.git
-    cd project_folder
+    cd Vendor_management_system_drf
     ```
 2. Install Dependencies
     ```sh
