@@ -45,19 +45,22 @@ Make sure you have the following installed before running the application:
     ```
 6. API Endpoints
 
-    - POST /api/v1/vendors/: Create a new vendor.
-    - GET /api/v1/vendors/: Retrieve all vendors.
-    - GET /api/v1/vendors/<vendor_id>/: Retrieve details of a specific vendor.
-    - PUT /api/v1/vendors/<vendor_id>/: Update details of a specific vendor.
-    - DELETE /api/v1/vendors/<vendor_id>/: Delete a specific vendor.
-    - POST /api/v1/vendors/<vendor_id>/purchase_orders/: Create a purchase order for a vendor.
-    - GET /api/v1/vendors/<vendor_id>/purchase_orders/: Retrieve all purchase orders for a vendor.
-    - GET /api/v1/vendors/<vendor_id>/performance/: Retrieve historical performance for a vendor.
-    - GET /api/v1/vendors/<vendor_id>/vendor_performance/: Retrieve performance details for a vendor.
-    - PUT /api/v1/purchase_orders/<order_id>/acknowledge/: Acknowledge a purchase order.
+    - POST /api/vendors/: Create a new vendor.
+    - GET /api/vendors/: List all vendors.
+    - GET /api/vendors/{vendor_id}/: Retrieve a specific vendor's details.
+    - PUT /api/vendors/{vendor_id}/: Update a vendor's details.
+    - DELETE /api/vendors/{vendor_id}/: Delete a vendor.
+    - POST /api/purchase_orders/: Create a purchase order.
+    - GET /api/purchase_orders/: List all purchase orders with an option to filter by vendor.
+    - GET /api/purchase_orders/{po_id}/: Retrieve details of a specific purchase order.
+    - PUT /api/purchase_orders/{po_id}/: Update a purchase order.
+    - DELETE /api/purchase_orders/{po_id}/: Delete a purchase order.
+    - GET /api/vendors/{vendor_id}/performance: Retrieve a vendor's performance metrics.
+    - POST /api/token/: Generates a token with valid user credentials for API access.
+    - POST /api/token/refresh/: Renews the token for continued API access without re-authentication.
 
 7. Authentication
 
-    JWT Authentication is required for most endpoints.
+    JWT Authentication is required for all the endpoints.
     Obtain a JWT token by sending a POST request to /api/token/ with valid credentials.
     Include the token in the Authorization header for authenticated endpoints (Authorization: Bearer <token>).
