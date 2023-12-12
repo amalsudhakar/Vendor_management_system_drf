@@ -56,25 +56,9 @@ Make sure you have the following installed before running the application:
     python manage.py test
     ```
 
-## URL Patterns:
-
-- Admin URLs: Routes requests to Django's admin interface.
-    - Accessible at /admin/.
+## Api Endpoints:
     
-- VendorApp URLs: Includes URLs from the VendorApp application.
-    - All VendorApp endpoints are prefixed with /api/.
-
-- Swagger Documentation URLs: Endpoint URLs for API documentation using Swagger and ReDoc.
-    - /swagger<str:format>: Provides JSON format of the API schema.
-    - /swagger/: UI for Swagger documentation.
-    - /redoc/: UI for ReDoc documentation.
-
-- Token Authentication URLs: Endpoints for token-based authentication using Simple JWT.
-    - /api/token/: Endpoint to obtain a token.
-    - /api/token/refresh/: Endpoint to refresh an existing token.
-
-7. API Endpoints
-
+-**VendorApp URLs:** Includes URLs from the VendorApp application.
     - POST /api/vendors/: Create a new vendor.
     - GET /api/vendors/: List all vendors.
     - GET /api/vendors/{vendor_id}/: Retrieve a specific vendor's details.
@@ -89,7 +73,19 @@ Make sure you have the following installed before running the application:
     - POST /api/token/: Generates a token with valid user credentials for API access.
     - POST /api/token/refresh/: Renews the token for continued API access without re-authentication.
 
-8. Authentication
+-**Token Authentication URLs:** Endpoints for token-based authentication using Simple JWT.
+    - /api/token/: Endpoint to obtain a token.
+    - /api/token/refresh/: Endpoint to refresh an existing token.
+
+-**Admin URLs:** Routes requests to Django's admin interface.
+    - Accessible at /admin/.
+
+-**Swagger Documentation URLs:** Endpoint URLs for API documentation using Swagger and ReDoc.
+    - /swagger<str:format>: Provides JSON format of the API schema.
+    - /swagger/: UI for Swagger documentation.
+    - /redoc/: UI for ReDoc documentation.
+
+## Authentication
 
     JWT Authentication is required for all the endpoints.
     Obtain a JWT token by sending a POST request to /api/token/ with valid credentials.
