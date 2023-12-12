@@ -18,7 +18,7 @@ class Vendor(models.Model):
     def calculate_on_time_delivery_rate(self):
         completed_orders = PurchaseOrder.objects.filter(
             vendor=self, status='completed')
-        
+
         if completed_orders.exists():
             on_time_orders = completed_orders.filter(
                 delivery_date__lte=models.F('delivery_date'))
@@ -38,21 +38,22 @@ class Vendor(models.Model):
     def calculate_average_response_time(self):
         acknowledged_orders = PurchaseOrder.objects.filter(
             vendor=self, acknowledgment_date__isnull=False)
-        
+
         if acknowledged_orders.exists():
             response_times = [
                 (order.acknowledgment_date - order.issue_date).total_seconds()
                 for order in acknowledged_orders
             ]
-            return sum(response_times) / len(response_times) / 3600  # Convert seconds to hours
+            # Convert seconds to hours
+            return sum(response_times) / len(response_times) / 3600
         else:
             return 0
 
-
     def calculate_fulfillment_rate(vendor):
         completed_orders = vendor.purchaseorder_set.filter(status='completed')
-        successful_orders = completed_orders.exclude(quality_rating__isnull=True)
-        
+        successful_orders = completed_orders.exclude(
+            quality_rating__isnull=True)
+
         if completed_orders.count() > 0:
             fulfillment_rate = successful_orders.count() / completed_orders.count()
         else:

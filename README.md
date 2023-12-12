@@ -92,5 +92,7 @@ Make sure you have the following installed before running the application:
 ## Authentication
 
 JWT Authentication is required for all the endpoints.
+
 Obtain a JWT token by sending a POST request to /api/token/ with valid credentials.
+
 Include the token in the Authorization header for authenticated endpoints (Authorization: Bearer <token>).

@@ -43,7 +43,6 @@ class PerformanceList(generics.RetrieveAPIView):
     serializer_class = VendorPerformanceSerializer
 
 
-
 class AcknowledgePurchaseOrder(generics.UpdateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]

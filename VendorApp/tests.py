@@ -209,13 +209,14 @@ class PerformanceListAPIViewTest(APITestCase):
     def test_performance_list_retrieve(self):
         url = reverse('performance-list', kwargs={'pk': self.vendor.pk})
         response = self.client.get(url)
-        
+
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        
+
         # Assuming the response contains multiple fields for performance metrics
-        expected_fields = ['on_time_delivery_rate', 'quality_rating_avg', 'average_response_time', 'fulfillment_rate']
+        expected_fields = ['on_time_delivery_rate', 'quality_rating_avg',
+                           'average_response_time', 'fulfillment_rate']
         returned_fields = list(response.data.keys())
-        
+
         self.assertCountEqual(returned_fields, expected_fields)
 
 
