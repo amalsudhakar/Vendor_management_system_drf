@@ -91,8 +91,37 @@ Make sure you have the following installed before running the application:
 
 ## Authentication
 
-JWT Authentication is required for all the endpoints.
+JWT Authentication is required for accessing all the endpoints within the Vendor Management System.
 
-Obtain a JWT token by sending a POST request to /api/token/ with valid credentials.
+### Obtaining a JWT Token:
 
-Include the token in the Authorization header for authenticated endpoints (Authorization: Bearer <token>).
+1. **Use Superuser Credentials:**
+   - Utilize the username and password of the superuser created during the setup process. If you haven't created a superuser yet, you can do so using the following command:
+     ```bash
+     python manage.py createsuperuser
+     ```
+   - Enter the desired username, email, and a secure password for the superuser.
+
+2. **Request a JWT Token:**
+   - Send a POST request to the `/api/token/` endpoint with the superuser's username and password in the request body.
+     ```bash
+     curl -X POST http://127.0.0.1:8000/api/token/ \
+     -H "Content-Type: application/json" \
+     -d '{"username": "your_superuser_username", "password": "your_superuser_password"}'
+     ```
+   - This request will return a JWT token in the response, typically in the format:
+     ```json
+     {
+         "access": "your_access_token",
+         "refresh": "your_refresh_token"
+     }
+     ```
+
+3. **Include Token in Authorization Header:**
+   - Once you have obtained the token, include it in the Authorization header as follows:
+     ```
+     Authorization: Bearer <your_access_token>
+     ```
+   - Use this Authorization header in subsequent requests to authenticated endpoints, replacing `<your_access_token>` with the actual access token obtained.
+
+By following these steps and using the superuser's username and password, you can obtain a JWT token necessary for accessing the authenticated endpoints within the Vendor Management System. This ensures secure access to the system's functionalities requiring authentication.
