@@ -9,6 +9,7 @@ This system offers RESTful APIs to perform various operations related to vendors
 ## Features
 - Vendor Management: Create, retrieve, update, and delete vendor details.
 - Purchase Order Handling: Manage purchase orders - create, update, retrieve, and delete.
+- Vendor Performance Evaluation: Manage and track vendor performance metrics.
 - Token Authentication: Secure API access using Simple JWT for token-based authentication.
 - API Documentation: Swagger and ReDoc integration for comprehensive API documentation.
 
