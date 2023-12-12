@@ -189,7 +189,6 @@ Here are cURL examples demonstrating how to interact with the API endpoints:
 - **Retrieving Vendor Performance Metrics:**
 
     ```bash
-    Copy code
     curl -X GET http://your_domain/api/vendors/{vendor_id}/performance 
     -H "Authorization: Bearer <your_access_token>"
     ```
