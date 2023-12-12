@@ -101,7 +101,7 @@ This section outlines the various endpoints available for interacting with the V
 Endpoints for token-based authentication using Simple JWT.
 
 - **/api/token/:** 
-  - Endpoint to obtain a token for API access using valid user credentials.
+  - Endpoint to obtain a token for API access using valid user credentials such as username and password.
 
 - **/api/token/refresh/:** 
   - Endpoint to refresh an existing token, allowing continued API access without re-authentication.
