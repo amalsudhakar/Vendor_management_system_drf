@@ -32,6 +32,7 @@ Make sure you have the following installed before running the application:
 2. Create and Activate a Virtual Environment (Optional but Recommended):
     ```sh
     python -m venv venv
+    venv\Scripts\activate
     ```
 3. Install Dependencies
     ```sh
