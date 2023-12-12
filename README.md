@@ -57,37 +57,75 @@ Make sure you have the following installed before running the application:
     ```
 
 ## Api Endpoints:
-    
-**VendorApp URLs:** Includes URLs from the VendorApp application.
 
-- POST /api/vendors/: Create a new vendor.
-- GET /api/vendors/: List all vendors.
-- GET /api/vendors/{vendor_id}/: Retrieve a specific vendor's details.
-- PUT /api/vendors/{vendor_id}/: Update a vendor's details.
-- DELETE /api/vendors/{vendor_id}/: Delete a vendor.
-- POST /api/purchase_orders/: Create a purchase order.
-- GET /api/purchase_orders/: List all purchase orders with an option to filter by vendor.
-- GET /api/purchase_orders/{po_id}/: Retrieve details of a specific purchase order.
-- PUT /api/purchase_orders/{po_id}/: Update a purchase order.
-- DELETE /api/purchase_orders/{po_id}/: Delete a purchase order.
-- GET /api/vendors/{vendor_id}/performance: Retrieve a vendor's performance metrics.
-- POST /api/token/: Generates a token with valid user credentials for API access.
-- POST /api/token/refresh/: Renews the token for continued API access without re-authentication.
+### VendorApp URLs:
 
-**Token Authentication URLs:** Endpoints for token-based authentication using Simple JWT.
+This section outlines the various endpoints available for interacting with the VendorApp, which manages vendors and purchase orders. The following URLs provide access to functionalities related to vendor management, purchase order handling, and performance metrics calculations within the Vendor Management System.
 
-- /api/token/: Endpoint to obtain a token.
-- /api/token/refresh/: Endpoint to refresh an existing token.
+1. **POST /api/vendors/: Create a new vendor.**
+   - Endpoint for creating a new vendor by providing details such as name, contact details, address, and a unique vendor code. Utilizes the `Vendor` model to create a new entry in the database.
 
-**Admin URLs:** Routes requests to Django's admin interface.
+2. **GET /api/vendors/: List all vendors.**
+   - Retrieves a list of all vendors available in the system. Fetches data from the `Vendor` model and returns a collection of vendor details.
 
-- Accessible at /admin/.
+3. **GET /api/vendors/{vendor_id}/: Retrieve a specific vendor's details.**
+   - Retrieves the details of a specific vendor identified by `{vendor_id}`. Fetches data from the `Vendor` model based on the unique identifier and returns the specific vendor's information.
 
-**Swagger Documentation URLs:** Endpoint URLs for API documentation using Swagger and ReDoc.
+4. **PUT /api/vendors/{vendor_id}/: Update a vendor's details.**
+   - Updates the details of a specific vendor identified by `{vendor_id}`. Utilizes the `Vendor` model to modify the existing vendor's information.
 
-- /swagger<str:format>: Provides JSON format of the API schema.
-- /swagger/: UI for Swagger documentation.
-- /redoc/: UI for ReDoc documentation.
+5. **DELETE /api/vendors/{vendor_id}/: Delete a vendor.**
+   - Deletes a specific vendor identified by `{vendor_id}`. Removes the vendor entry from the system using the `Vendor` model.
+
+6. **POST /api/purchase_orders/: Create a purchase order.**
+   - Creates a new purchase order by providing details such as purchase order number, vendor reference, order date, delivery date, items, quantity, and status. Uses the `PurchaseOrder` model to create a new purchase order entry in the database.
+
+7. **GET /api/purchase_orders/: List all purchase orders with an option to filter by vendor.**
+   - Retrieves a list of all purchase orders available in the system. Additionally, it offers an option to filter purchase orders by a specific vendor. Fetches data from the `PurchaseOrder` model and returns relevant purchase order details.
+
+8. **GET /api/purchase_orders/{po_id}/: Retrieve details of a specific purchase order.**
+   - Retrieves the details of a specific purchase order identified by `{po_id}`. Fetches data from the `PurchaseOrder` model based on the unique identifier and returns the specific purchase order's information.
+
+9. **PUT /api/purchase_orders/{po_id}/: Update a purchase order.**
+   - Updates the details of a specific purchase order identified by `{po_id}`. Utilizes the `PurchaseOrder` model to modify the existing purchase order's information.
+
+10. **DELETE /api/purchase_orders/{po_id}/: Delete a purchase order.**
+    - Deletes a specific purchase order identified by `{po_id}`. Removes the purchase order entry from the system using the `PurchaseOrder` model.
+
+11. **GET /api/vendors/{vendor_id}/performance: Retrieve a vendor's performance metrics.**
+    - Retrieves the performance metrics of a specific vendor identified by `{vendor_id}`. Utilizes the `Vendor` model's methods (`calculate_on_time_delivery_rate`, `calculate_quality_rating_average`, `calculate_average_response_time`, `calculate_fulfillment_rate`) to calculate and return the vendor's performance metrics.
+
+
+### Token Authentication URLs:
+
+Endpoints for token-based authentication using Simple JWT.
+
+- **/api/token/:** 
+  - Endpoint to obtain a token for API access using valid user credentials.
+
+- **/api/token/refresh/:** 
+  - Endpoint to refresh an existing token, allowing continued API access without re-authentication.
+
+### Admin URLs:
+
+Routes requests to Django's admin interface.
+
+- **/admin/:**
+  - Provides access to Django's built-in admin panel for managing system entities and configurations.
+
+### Swagger Documentation URLs:
+
+Endpoint URLs for API documentation using Swagger and ReDoc.
+
+- **/swaggerstr:format:** 
+  - Provides the API schema in JSON format.
+
+- **/swagger/:** 
+  - UI for Swagger documentation, offering interactive API documentation and testing.
+
+- **/redoc/:** 
+  - UI for ReDoc documentation, providing a clean and organized view of the API documentation.
+
 
 ## Authentication
 
