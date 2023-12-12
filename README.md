@@ -192,7 +192,3 @@ Here are cURL examples demonstrating how to interact with the API endpoints:
     curl -X GET http://your_domain/api/vendors/{vendor_id}/performance 
     -H "Authorization: Bearer <your_access_token>"
     ```
-
-## Contributions:
-
-Contributions to the project are welcome! Users can contribute through bug reports, feature suggestions, or pull requests.
