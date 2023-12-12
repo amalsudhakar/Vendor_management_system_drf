@@ -143,8 +143,8 @@ JWT Authentication is required for accessing all the endpoints within the Vendor
 2. **Request a JWT Token:**
    - Send a POST request to the `/api/token/` endpoint with the superuser's username and password in the request body.
      ```bash
-     curl -X POST http://127.0.0.1:8000/api/token/ \
-     -H "Content-Type: application/json" \
+     curl -X POST http://127.0.0.1:8000/api/token/ 
+     -H "Content-Type: application/json" 
      -d '{"username": "your_superuser_username", "password": "your_superuser_password"}'
      ```
    - This request will return a JWT token in the response, typically in the format:
@@ -163,3 +163,36 @@ JWT Authentication is required for accessing all the endpoints within the Vendor
    - Use this Authorization header in subsequent requests to authenticated endpoints, replacing `<your_access_token>` with the actual access token obtained.
 
 By following these steps and using the superuser's username and password, you can obtain a JWT token necessary for accessing the authenticated endpoints within the Vendor Management System. This ensures secure access to the system's functionalities requiring authentication.
+
+
+## Example Usage:
+
+**Sample Requests:**
+Here are cURL examples demonstrating how to interact with the API endpoints:
+
+- **Creating a Vendor:**
+  ```bash
+  curl -X POST http://your_domain/api/vendors/ 
+  -H "Authorization: Bearer <your_access_token>" 
+  -H "Content-Type: application/json" 
+  -d '{"name": "Vendor Name", "contact_details": "Contact Info", "address": "Vendor Address", "vendor_code": "ABC123"}'
+  ```
+- **Updating a Purchase Order:**
+
+    ```bash
+    curl -X PUT http://your_domain/api/purchase_orders/{po_id}/ 
+    -H "Authorization: Bearer <your_access_token>" 
+    -H "Content-Type: application/json" 
+    -d '{"status": "completed"}'
+    ```
+- **Retrieving Vendor Performance Metrics:**
+
+    ```bash
+    Copy code
+    curl -X GET http://your_domain/api/vendors/{vendor_id}/performance 
+    -H "Authorization: Bearer <your_access_token>"
+    ```
+
+## Contributions:
+
+Contributions to the project are welcome! Users can contribute through bug reports, feature suggestions, or pull requests.
