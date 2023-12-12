@@ -3,9 +3,8 @@ from rest_framework.test import APITestCase
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.urls import reverse
-# Replace 'your_app' with the appropriate app name
 from .models import HistoricalPerformance, PurchaseOrder, Vendor
-from .serializers import VendorSerializer  # Import your serializer
+from .serializers import VendorSerializer
 from rest_framework_simplejwt.tokens import AccessToken
 
 
@@ -20,28 +19,24 @@ class VendorCreateAPIViewTest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token}')
 
     def test_vendor_create(self):
-        # Replace 'vendor-create' with your actual URL name
         url = reverse('create-vendor')
         data = {
             'name': 'Test Vendor',
             'contact_details': 'Contact Info',
             'address': 'Vendor Address',
             'vendor_code': 'V123'
-            # Add other required fields based on your Vendor model
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_unauthorized_access(self):
-        self.client.credentials()  # Remove authentication token
-        # Replace 'vendor-create' with your actual URL name
+        self.client.credentials()
         url = reverse('create-vendor')
         data = {
             'name': 'Test Vendor',
             'contact_details': 'Contact Info',
             'address': 'Vendor Address',
             'vendor_code': 'V123'
-            # Add other required fields based on your Vendor model
         }
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -176,7 +171,6 @@ class PurchaseOrderDetailsUpdateAPIViewTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.purchase_order.refresh_from_db()
         self.assertEqual(self.purchase_order.po_number, 'PO456')
-        # Add assertions for other fields being updated
 
     def test_purchase_order_destroy(self):
         url = reverse('purchase-order-details',
@@ -213,34 +207,16 @@ class PerformanceListAPIViewTest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token}')
 
     def test_performance_list_retrieve(self):
-        url = reverse('performance-list', kwargs={'vendor_id': self.vendor.pk})
+        url = reverse('performance-list', kwargs={'pk': self.vendor.pk})
         response = self.client.get(url)
+        
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 1)
-
-
-class VendorPerformanceAPIViewTest(APITestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(
-            username='testuser', password='testpassword')
-        self.token = AccessToken.for_user(self.user)
-        self.api_authentication()
-
-        self.vendor = Vendor.objects.create(
-            name='Test Vendor',
-            contact_details='Contact Info',
-            address='Vendor Address',
-            vendor_code='V123'
-        )
-
-    def api_authentication(self):
-        self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.token}')
-
-    def test_vendor_performance_retrieve(self):
-        url = reverse('vendor-performance', kwargs={'pk': self.vendor.pk})
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        print(response.data)
+        
+        # Assuming the response contains multiple fields for performance metrics
+        expected_fields = ['on_time_delivery_rate', 'quality_rating_avg', 'average_response_time', 'fulfillment_rate']
+        returned_fields = list(response.data.keys())
+        
+        self.assertCountEqual(returned_fields, expected_fields)
 
 
 class AcknowledgePurchaseOrderAPIViewTest(APITestCase):

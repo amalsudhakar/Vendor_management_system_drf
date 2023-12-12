@@ -2,11 +2,9 @@ from rest_framework import generics
 from .models import Vendor, PurchaseOrder, HistoricalPerformance
 from .serializers import AcknowledgePurchaseOrderSerializer, VendorPerformanceSerializer, VendorSerializer, PurchaseOrderSerializer, HistoricalPerformanceSerializer
 from rest_framework.response import Response
-from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
-# View vendors api/vendors/.
 
 
 class VendorCreate(generics.ListCreateAPIView):
@@ -39,26 +37,12 @@ class PurchaseOrderDetailsUpdate(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PurchaseOrderSerializer
 
 
-class PerformanceList(generics.ListAPIView):
+class PerformanceList(generics.RetrieveAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
-    lookup_field = 'vendor_id'
-    queryset = HistoricalPerformance.objects.all()
-    serializer_class = HistoricalPerformanceSerializer
-
-
-class VendorPerformance(generics.RetrieveAPIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    queryset = Vendor.objects.all()
     serializer_class = VendorPerformanceSerializer
 
-    def get_queryset(self):
-        return Vendor.objects.all()
-
-    def get(self, request, *args, **kwargs):
-        vendor = self.get_object()
-        serializer = self.get_serializer(vendor)
-        return Response(serializer.data)
 
 
 class AcknowledgePurchaseOrder(generics.UpdateAPIView):

@@ -2,7 +2,6 @@ from django.db.models import Avg
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils import timezone
-
 # Create your models here.
 
 
@@ -19,9 +18,14 @@ class Vendor(models.Model):
     def calculate_on_time_delivery_rate(self):
         completed_orders = PurchaseOrder.objects.filter(
             vendor=self, status='completed')
-        on_time_orders = completed_orders.filter(
-            delivery_date__lte=models.F('delivery_date'))
-        return on_time_orders.count() / completed_orders.count() if completed_orders.count() > 0 else 0
+        
+        if completed_orders.exists():
+            on_time_orders = completed_orders.filter(
+                delivery_date__lte=models.F('delivery_date'))
+            on_time_delivery_rate = on_time_orders.count() / completed_orders.count()
+            return on_time_delivery_rate * 100  # Convert to percentage
+        else:
+            return 0
 
     def calculate_quality_rating_average(self):
         completed_orders = PurchaseOrder.objects.filter(
@@ -34,18 +38,23 @@ class Vendor(models.Model):
     def calculate_average_response_time(self):
         acknowledged_orders = PurchaseOrder.objects.filter(
             vendor=self, acknowledgment_date__isnull=False)
-        response_times = [(order.acknowledgment_date - order.issue_date).total_seconds()
-                          for order in acknowledged_orders]
-        return sum(response_times) / len(response_times) if response_times else 0
+        
+        if acknowledged_orders.exists():
+            response_times = [
+                (order.acknowledgment_date - order.issue_date).total_seconds()
+                for order in acknowledged_orders
+            ]
+            return sum(response_times) / len(response_times) / 3600  # Convert seconds to hours
+        else:
+            return 0
+
 
     def calculate_fulfillment_rate(vendor):
         completed_orders = vendor.purchaseorder_set.filter(status='completed')
-        successful_orders = completed_orders.exclude(
-            status='completed', quality_rating__isnull=True)
-        total_orders = vendor.purchaseorder_set.all()
-
-        if total_orders.count() > 0:
-            fulfillment_rate = successful_orders.count() / total_orders.count()
+        successful_orders = completed_orders.exclude(quality_rating__isnull=True)
+        
+        if completed_orders.count() > 0:
+            fulfillment_rate = successful_orders.count() / completed_orders.count()
         else:
             fulfillment_rate = 0.0
 
