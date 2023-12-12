@@ -58,7 +58,7 @@ Make sure you have the following installed before running the application:
 
 ## Api Endpoints:
     
--**VendorApp URLs:** Includes URLs from the VendorApp application.
+**VendorApp URLs:** Includes URLs from the VendorApp application.
 
     - POST /api/vendors/: Create a new vendor.
     - GET /api/vendors/: List all vendors.
@@ -74,16 +74,16 @@ Make sure you have the following installed before running the application:
     - POST /api/token/: Generates a token with valid user credentials for API access.
     - POST /api/token/refresh/: Renews the token for continued API access without re-authentication.
 
--**Token Authentication URLs:** Endpoints for token-based authentication using Simple JWT.
+**Token Authentication URLs:** Endpoints for token-based authentication using Simple JWT.
 
     - /api/token/: Endpoint to obtain a token.
     - /api/token/refresh/: Endpoint to refresh an existing token.
 
--**Admin URLs:** Routes requests to Django's admin interface.
+**Admin URLs:** Routes requests to Django's admin interface.
 
     - Accessible at /admin/.
 
--**Swagger Documentation URLs:** Endpoint URLs for API documentation using Swagger and ReDoc.
+**Swagger Documentation URLs:** Endpoint URLs for API documentation using Swagger and ReDoc.
 
     - /swagger<str:format>: Provides JSON format of the API schema.
     - /swagger/: UI for Swagger documentation.
